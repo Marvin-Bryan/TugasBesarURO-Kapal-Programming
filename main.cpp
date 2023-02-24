@@ -60,7 +60,7 @@ public:
 
 int main() {
     // membuat objek Ship
-    Ship luffyShip(0, 0, 100, 10, 20);
+    Ship luffyShip(0, 0, 100, 5, 10);
 
     // menampilkan koordinat awal kapal
     luffyShip.printPosition();
