@@ -58,12 +58,43 @@ public:
     }
 };
 
+const int MAP = 11;
+
 int main() {
+    
+    srand(time(0)); // inisialisasi seed untuk generator bilangan acak
+
+    int range = 11; // rentang 21 karena ada 21 bilangan bulat antara -10 sampai 10
+    int randomNumber = rand() % range - 5;
+    int x = randomNumber;
+    int y = randomNumber;
+    
     // membuat objek Ship
     Ship luffyShip(0, 0, 100, 5, 10);
-
+    Ship enemyShip(x, y, 40, 5, 5);
+    
+    // print peta
+    char map[MAP][MAP];
+    
+    for (int i = -10; i < MAP; i++) {
+        for (int j = -10; j < MAP; j++) {
+            map[i][j] = '~';
+        }
+    }
+    
+    map[0][0] = 'L';
+    map[x][y] = 'E';
+    
+    for (int i = -10; i < MAP; i++) {
+        for (int j = -10; j < MAP; j++) {
+            cout << map[i][j] << ' ';
+        }
+        cout << endl;
+    }
+    
     // menampilkan koordinat awal kapal
     luffyShip.printPosition();
+    enemyShip.printPosition();
 
     // menyerang musuh
     luffyShip.attack();
