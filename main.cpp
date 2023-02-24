@@ -60,16 +60,16 @@ public:
 
 int main() {
     // membuat objek Ship
-    Ship myShip(0, 0, 100, 10, 20);
+    Ship luffyShip(0, 0, 100, 10, 20);
 
     // menampilkan koordinat awal kapal
-    myShip.printPosition();
+    luffyShip.printPosition();
 
     // menyerang musuh
-    myShip.attack();
+    luffyShip.attack();
 
     // menampilkan sisa health kapal
-    cout << "Sisa health kapal: " << myShip.getHealth() << endl;
+    cout << "Sisa health kapal: " << luffyShip.getHealth() << endl;
 
     return 0;
 }
