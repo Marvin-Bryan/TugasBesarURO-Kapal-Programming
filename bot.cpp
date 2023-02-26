@@ -6,6 +6,18 @@
 
 using namespace std;
 
+const int range = 21;
+char map[range][range];
+
+void printMap() {
+    for (int y=0; y<range; y++) {
+        for (int x=0; x<range; x++) {
+            cout << map[x][20-y];
+        }
+        cout << endl;
+    }
+}
+
 class Ship {
 private:
     int x;
@@ -14,20 +26,21 @@ private:
     int maxAttackRange;
     int attackDamage;
 public:
-    Ship(int startX, int startY, int startHealth, int startMaxAttackRange, int startAttackDamage) {
-        x = startX;
-        y = startY;
+    Ship(int startX, int startY, int startHealth, int startMaxAttackRange, int startAttackDamage, char symbol) {
+        x = startX + 10;
+        y = startY + 10;
         health = startHealth;
         maxAttackRange = startMaxAttackRange;
         attackDamage = startAttackDamage;
+        map[x][y] = symbol;
     }
 
     int getX() {
-        return x;
+        return x-10;
     }
 
     int getY() {
-        return y;
+        return y-10;
     }
 
     int getHealth() {
@@ -45,24 +58,48 @@ public:
     void move(char direction) {
         switch(direction) {
             case 'u':
-                y++;
-                break;
+                if (map[x][y+1] == '~') {
+                    map[x][y+1] = map[x][y];
+                    map[x][y] = '~';
+                    y++;
+                    break;
+                } else {
+                    cout << "Invalid direction" << endl;
+                }
             case 'd':
-                y--;
-                break;
+                if (map[x][y-1] == '~') {
+                    map[x][y-1] = map[x][y];
+                    map[x][y] = '~';
+                    y--;
+                    break;
+                } else {
+                    cout << "Invalid direction" << endl;
+                }
             case 'r':
-                x++;
-                break;
+                if (map[x+1][y] == '~') {
+                    map[x+1][y] = map[x][y];
+                    map[x][y] = '~';
+                    x++;
+                    break;
+                } else {
+                    cout << "Invalid direction" << endl;
+                }
             case 'l':
-                x--;
-                break;
+                if (map[x-1][y] == '~') {
+                    map[x-1][y] = map[x][y];
+                    map[x][y] = '~';
+                    x--;
+                    break;
+                } else {
+                    cout << "Invalid direction" << endl;
+                }
             default:
                 break;
         }
     }
 
     void attack(Ship &other) {
-        double distance = sqrt(pow(x - other.getX(), 2) + pow(y - other.getY(), 2));
+        double distance = sqrt(pow(this->getX() - other.getX(), 2) + pow(this->getY() - other.getY(), 2));
         if (distance <= maxAttackRange) {
             other.takeDamage(attackDamage);
         } else {
@@ -78,22 +115,33 @@ public:
 int main() {
     srand(time(NULL));
 
+    for (int i=0; i<range; i++) {
+        for (int j=0; j<range; j++) {
+            map[i][j] = '~';
+        }
+    }
     // initialize user's ship at position (0,0)
-    Ship ship(0, 0, 100, 5, 100);
+    Ship ship(0, 0, 100, 5, 100, 'U');
 
     // initialize enemy fleet at random positions
     vector<Ship> enemies;
-    for (int i = 0; i < 5; i++) {
-        int x = rand() % 10 + 1;
-        int y = rand() % 10 + 1;
-        Ship enemy(x, y, 50, 3, 5);
-        enemies.push_back(enemy);
+    int p = 0;
+    while (p < 5) {
+        int x = rand() % 21;
+        int y = rand() % 21;
+        
+        if (map[x][y] == '~') {
+            Ship enemy(x-10, y-10, 50, 3, 5, 'E');
+            enemies.push_back(enemy);
+            p = p + 1;
+        }
     }
 
     int numEnemiesDefeated = 0;
 
     while (ship.getHealth() > 0 && numEnemiesDefeated < 5) {
         // display user's ship position
+        printMap();
         cout << "Ship position: (" << ship.getX() << ", " << ship.getY() << ")" << endl;
 
         // ask for user input
@@ -106,10 +154,15 @@ int main() {
             cout << "Enter 'u' to move up, 'd' to move down, 'r' to move right, or 'l' to move left: ";
             char direction;
             cin >> direction;
-            if (direction != ('u' || 'd' || 'r' || 'l')) {
+            if (direction != 'u' && direction != 'd' && direction != 'r' && direction != 'l') {
                 cout << "Invalid direction" << endl;
             } else {
-                ship.move(direction);
+                try {
+                    ship.move(direction);
+                }
+                catch(exception& ex) {
+                    cout << "Invalid direction" << endl;
+                }
             }
 
         } else if (input == 'a') {
@@ -122,6 +175,8 @@ int main() {
                     foundTarget = true;
                     if (enemy.getHealth() <= 0) {
                         numEnemiesDefeated++;
+                        map[enemy.getX() +10][enemy.getY() +10] = '~';
+                        delete &enemy;
                         cout << "Ship defeated!" << endl;
                     }
                     break;
@@ -137,22 +192,27 @@ int main() {
             cout << "Invalid input" << endl;
         }
 
+        char moveList[4] = {'u', 'r', 'l', 'd'};
+        char inputList[3] = {'m', 'a', 's'};
         // move the enemy ships
         for (auto& enemy : enemies) {
-            enemy.move('d'); // Ini maunya musuh dibuat bergerak ke arah random, cuman gw blom nemu caranya
-            if ((((enemy.getY() - ship.getY()) == 0) && ((enemy.getX() - ship.getX()))) == 0) {
-                ship.takeDamage(5);
-                enemy.takeDamage(5);
-                cout << "Ship hit by enemy! Health is now " << ship.getHealth() << endl;
-            }
-        }
+            char xyz = inputList[rand() % 3];
+            if (xyz == 'm') {
+                enemy.move(moveList[rand() % 4]);
+            } else if (xyz == 'a') {
+                double distance = sqrt(pow(ship.getX() - enemy.getX(), 2) + pow(ship.getY() - enemy.getY(), 2));
+                if (distance <= enemy.getMaxAttackRange()) {
+                    enemy.attack(ship);
+                    cout << "Ship hit by enemy! Health is now " << ship.getHealth() << endl;
 
-        // check if ship is defeated
-        if (ship.getHealth() <= 0) {
-            cout << "Ship defeated! Total opponents defeated: " << numEnemiesDefeated << endl;
-            break;
+                    // check if ship is defeated
+                    if (ship.getHealth() <= 0) {
+                        cout << "Ship defeated! Total opponents defeated: " << numEnemiesDefeated << endl;
+                        break;
+                    }
+                }
+            } else {}   
         }
-
         // check if all enemies are defeated
         bool allEnemiesDefeated = true;
         for (auto& enemy : enemies) {
