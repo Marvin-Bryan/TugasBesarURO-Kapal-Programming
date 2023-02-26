@@ -25,15 +25,16 @@ private:
     int health;
     int maxAttackRange;
     int attackDamage;
-    char symbol;
+
 public:
+    char symbol;
     Ship(int startX, int startY, int startHealth, int startMaxAttackRange, int startAttackDamage, char startSymbol) {
         x = startX + 10;
         y = startY + 10;
         health = startHealth;
         maxAttackRange = startMaxAttackRange;
         attackDamage = startAttackDamage;
-        symbol = startSymbol
+        symbol = startSymbol;
         map[x][y] = symbol;
     }
 
