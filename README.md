@@ -30,7 +30,7 @@ Ketika di run, program ini akan segera meminta user akan input yg menentukan tin
 Ketika program dijalankan untuk pertama kali nya, program akan meng-spawn kapal milik user dan 5 kapal musuh yg diletakkan secara random, musuh dan kapal user akan bergerak/melakukan aksi setiap program menerima input dari user. Jadi usahakan gerakan anda sebagai user seefisien mungkin agar dapat meraih kemenangan.
 
 ### Link GitHub
-https://github.com/Marvin-Bryan/TugasBesarURO-Kapal-Programming/edit/bot/README.md
+https://github.com/Marvin-Bryan/TugasBesarURO-Kapal-Programming.git
 
 ### Peran Anggota
 
