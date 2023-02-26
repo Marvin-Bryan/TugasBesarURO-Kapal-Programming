@@ -42,8 +42,12 @@ public:
         cout << "Kapal berada di koordinat (" << x << "," << y << ")" << endl;
     }
     
-    void attack() {
-        //tolong diisi
+    void attack(Ship target) {
+        if ((abs(target.x - this->x) > this->maxAttackRange) && (abs(target.y - this->y) > this->maxAttackRange)) {
+            cout << "Kapal berada diluar jangkauan tembak" << endl;
+        } else {
+            target.health -= this->attackDamage;
+        }
     }
     
     void takeDamage(int damage) {
