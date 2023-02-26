@@ -72,9 +72,6 @@ public:
 
     void takeDamage(int damage) {
         health -= damage;
-        if (health <= 0) {
-            cout << "Ship defeated!" << endl;
-        }
     }
 };
 
@@ -82,7 +79,7 @@ int main() {
     srand(time(NULL));
 
     // initialize user's ship at position (0,0)
-    Ship ship(0, 0, 100, 5, 10);
+    Ship ship(0, 0, 100, 5, 100);
 
     // initialize enemy fleet at random positions
     vector<Ship> enemies;
@@ -109,7 +106,12 @@ int main() {
             cout << "Enter 'u' to move up, 'd' to move down, 'r' to move right, or 'l' to move left: ";
             char direction;
             cin >> direction;
-            ship.move(direction);
+            if (direction != ('u' || 'd' || 'r' || 'l')) {
+                cout << "Invalid direction" << endl;
+            } else {
+                ship.move(direction);
+            }
+
         } else if (input == 'a') {
             // find an enemy ship within range and attack it
             bool foundTarget = false;
@@ -117,27 +119,17 @@ int main() {
                 double distance = sqrt(pow(ship.getX() - enemy.getX(), 2) + pow(ship.getY() - enemy.getY(), 2));
                 if (distance <= ship.getMaxAttackRange()) {
                     ship.attack(enemy);
-                    foundTarget;
-                    ship.attack(enemy);
                     foundTarget = true;
+                    if (enemy.getHealth() <= 0) {
+                        numEnemiesDefeated++;
+                        cout << "Ship defeated!" << endl;
+                    }
                     break;
                 }
             }
 
             if (!foundTarget) {
                 cout << "No target in range" << endl;
-            }
-        } else if (input == 'm') {
-            // ask player for direction of movement
-            cout << "Enter 'u' to move up, 'd' to move down, 'l' to move left, or 'r' to move right: ";
-            char direction;
-            cin >> direction;
-
-            // move the ship
-            if (direction == ('u' || 'd' || 'l' || 'r')) {
-                ship.move(direction);
-            } else {
-                cout << "Invalid direction" << endl;
             }
         } else if (input == 's') {
             // do nothing
