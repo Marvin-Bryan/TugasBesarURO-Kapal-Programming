@@ -25,13 +25,15 @@ private:
     int health;
     int maxAttackRange;
     int attackDamage;
+    char symbol;
 public:
-    Ship(int startX, int startY, int startHealth, int startMaxAttackRange, int startAttackDamage, char symbol) {
+    Ship(int startX, int startY, int startHealth, int startMaxAttackRange, int startAttackDamage, char startSymbol) {
         x = startX + 10;
         y = startY + 10;
         health = startHealth;
         maxAttackRange = startMaxAttackRange;
         attackDamage = startAttackDamage;
+        symbol = startSymbol
         map[x][y] = symbol;
     }
 
@@ -169,17 +171,18 @@ int main() {
             // find an enemy ship within range and attack it
             bool foundTarget = false;
             for (Ship &enemy : enemies) {
-                double distance = sqrt(pow(ship.getX() - enemy.getX(), 2) + pow(ship.getY() - enemy.getY(), 2));
-                if (distance <= ship.getMaxAttackRange()) {
-                    ship.attack(enemy);
-                    foundTarget = true;
-                    if (enemy.getHealth() <= 0) {
-                        numEnemiesDefeated++;
-                        map[enemy.getX() +10][enemy.getY() +10] = '~';
-                        delete &enemy;
-                        cout << "Ship defeated!" << endl;
+                if (enemy.symbol == 'E') {
+                    double distance = sqrt(pow(ship.getX() - enemy.getX(), 2) + pow(ship.getY() - enemy.getY(), 2));
+                    if (distance <= ship.getMaxAttackRange()) {
+                        ship.attack(enemy);
+                        foundTarget = true;
+                        if (enemy.getHealth() <= 0) {
+                            numEnemiesDefeated++;
+                            map[enemy.getX() +10][enemy.getY() +10] = '~';
+                            enemy.symbol = 'X';
+                            cout << "Ship defeated!" << endl;
+                        }
                     }
-                    break;
                 }
             }
 
@@ -196,22 +199,24 @@ int main() {
         char inputList[3] = {'m', 'a', 's'};
         // move the enemy ships
         for (auto& enemy : enemies) {
-            char xyz = inputList[rand() % 3];
-            if (xyz == 'm') {
-                enemy.move(moveList[rand() % 4]);
-            } else if (xyz == 'a') {
-                double distance = sqrt(pow(ship.getX() - enemy.getX(), 2) + pow(ship.getY() - enemy.getY(), 2));
-                if (distance <= enemy.getMaxAttackRange()) {
-                    enemy.attack(ship);
-                    cout << "Ship hit by enemy! Health is now " << ship.getHealth() << endl;
+            if (enemy.symbol == 'E') {
+                char xyz = inputList[rand() % 3];
+                if (xyz == 'm') {
+                    enemy.move(moveList[rand() % 4]);
+                } else if (xyz == 'a') {
+                    double distance = sqrt(pow(ship.getX() - enemy.getX(), 2) + pow(ship.getY() - enemy.getY(), 2));
+                    if (distance <= enemy.getMaxAttackRange()) {
+                        enemy.attack(ship);
+                        cout << "Ship hit by enemy! Health is now " << ship.getHealth() << endl;
 
-                    // check if ship is defeated
-                    if (ship.getHealth() <= 0) {
-                        cout << "Ship defeated! Total opponents defeated: " << numEnemiesDefeated << endl;
-                        break;
+                        // check if ship is defeated
+                        if (ship.getHealth() <= 0) {
+                            cout << "Ship defeated! Total opponents defeated: " << numEnemiesDefeated << endl;
+                            break;
+                        }
                     }
-                }
-            } else {}   
+                } else {}   
+            }
         }
         // check if all enemies are defeated
         bool allEnemiesDefeated = true;
