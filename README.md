@@ -37,4 +37,4 @@ https://github.com/Marvin-Bryan/TugasBesarURO-Kapal-Programming/edit/bot/README.
 Marvin Bryan Juanethan	16522096 = Algortima Cek Koordinat dan Fungsi penampilan Peta
 Mahardhika Putra Adipratama	16522159 = Algortima Ditembak, Gerak dan Arahnya, Serangan Musuh, Tracking jumlah Kapal yang dihancurkan, dan Spawning musuh
 Ammar Naufal	19622047 = Algoritma Gerak
-Ahmad Hasan Albana	19622116 = Algortima Menembak, Map, dan Batas Gerak
+Ahmad Hasan Albana	19622116 = Algortima Menembak, Map, Tracking pergerakan kapal, dan Batas Gerak
