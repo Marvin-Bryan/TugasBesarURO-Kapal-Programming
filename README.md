@@ -35,7 +35,7 @@ Setelah itu, program akan berjalan terus hingga program akan berhenti ketika 5 k
 
 ## Link GitHub :
 ```
-https://github.com/Marvin-Bryan/TugasBesarURO-Kapal-Programming/edit/bot/README.md
+https://github.com/Marvin-Bryan/TugasBesarURO-Kapal-Programming
 ```
 
 ## Peran Anggota
