@@ -25,7 +25,7 @@ Nilai atribut dari kapal dan kapal musuh dibebaskan kepada CAKRU.
 
 ### Cara Menjalankan
 
-Ketika di run, program ini akan segera meminta user akan input yg menentukan tindakan apa yang user ingin terapkan pada kapal, untuk menjalankan kapal miliki user cukup simple dan jelas, hanya membutuhkan untuk user mengikuti petunjuk dari program.
+Ketika di run, program ini akan segera meminta user akan input yg menentukan tindakan apa yang user ingin terapkan pada kapal, untuk menjalankan kapal milik user cukup simple dan jelas, hanya membutuhkan user untuk mengikuti petunjuk dari program.
 
 Ketika program dijalankan untuk pertama kali nya, program akan meng-spawn kapal milik user dan 5 kapal musuh yg diletakkan secara random, musuh dan kapal user akan bergerak/melakukan aksi setiap program menerima input dari user. Jadi usahakan gerakan anda sebagai user seefisien mungkin agar dapat meraih kemenangan.
 
